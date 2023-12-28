@@ -89,11 +89,7 @@ export default new (class ArticlesService {
         "articles"
       )
         .orderBy("articles.id", "ASC")
-        .select("articles.id")
-        .addSelect("articles.title")
-        .addSelect("articles.author")
-        .addSelect("articles.image")
-        .addSelect("articles.date")
+        .select(["articles.id","articles.title","articles.author","articles.image","articles.date"])
         .getMany();
 
       return {
@@ -109,11 +105,7 @@ export default new (class ArticlesService {
       const response = await this.ArticlesRepository.createQueryBuilder(
         "articles"
       )
-        .select("articles.id")
-        .addSelect("articles.title")
-        .addSelect("articles.author")
-        .addSelect("articles.image")
-        .addSelect("articles.date")
+          .select(["articles.id","articles.title","articles.author","articles.image","articles.date"])
         .where("articles.id = :id", { id })
         .getOne();
 
