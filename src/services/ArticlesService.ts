@@ -55,8 +55,9 @@ export default new (class ArticlesService {
   }
   async getAll(): Promise<object | string> {
     try {
-      const response =
-        await this.ArticlesRepository.createQueryBuilder().orderBy("id", "ASC").getMany();
+      const response = await this.ArticlesRepository.createQueryBuilder()
+        .orderBy("id", "ASC")
+        .getMany();
 
       return {
         message: "success getting all Articles",
@@ -86,15 +87,16 @@ export default new (class ArticlesService {
     try {
       const response = await this.ArticlesRepository.createQueryBuilder(
         "articles"
-      ).orderBy("articles.id", "ASC")
+      )
+        .orderBy("articles.id", "ASC")
         .select("articles.id")
         .addSelect("articles.title")
         .addSelect("articles.author")
         .addSelect("articles.image")
-        .addSelect("articles.date") 
+        .addSelect("articles.date")
         .getMany();
 
-      return {  
+      return {
         message: "success getting Cards Articles",
         data: response,
       };
@@ -102,7 +104,7 @@ export default new (class ArticlesService {
       return "message: something error while getting Cards Articles";
     }
   }
-  async getOneArticlesCard(id : number): Promise<object | string> {
+  async getOneArticlesCard(id: number): Promise<object | string> {
     try {
       const response = await this.ArticlesRepository.createQueryBuilder(
         "articles"
@@ -111,9 +113,9 @@ export default new (class ArticlesService {
         .addSelect("articles.title")
         .addSelect("articles.author")
         .addSelect("articles.image")
-        .addSelect("articles.date") 
+        .addSelect("articles.date")
         .where("articles.id = :id", { id })
-        .getOne()
+        .getOne();
 
       return {
         message: "success getting Cards Articles",
