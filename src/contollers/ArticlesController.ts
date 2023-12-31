@@ -1,11 +1,21 @@
 import { Request, Response } from "express";
 import ArticlesService from "../services/ArticlesService";
+import createArtcilesSchema from "../utils/validator/ArticlesValidator";
 
 export default new (class ArticlesController {
   async create(req: Request, res: Response) {
     try {
-      const data = req.body;
-      const response = await ArticlesService.create(data);
+      const data = {
+        title : req.body.title,
+        description: req.body.description,
+        date: req.body.date,
+        image: res.locals.filename
+      };
+      const { error, value } = createArtcilesSchema.validate(data)
+
+      if(error) return res.status(400).json(error)
+
+      const response = await ArticlesService.create(value);
       return res.status(201).json(response);
     } catch (error) {
       console.error("Error creating a Article:", error);

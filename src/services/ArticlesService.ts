@@ -8,11 +8,7 @@ export default new (class ArticlesService {
 
   async create(data: any): Promise<object | string> {
     try {
-      const response = await this.ArticlesRepository.createQueryBuilder()
-        .insert()
-        .into(Articles)
-        .values(data)
-        .execute();
+      const response = await this.ArticlesRepository.save(data);
 
       return {
         message: "success creating a new Articles",
@@ -24,12 +20,7 @@ export default new (class ArticlesService {
   }
   async update(id: number, data: any): Promise<object | string> {
     try {
-      const response = await this.ArticlesRepository.createQueryBuilder()
-        .update(Articles)
-        .set(data)
-        .where("id = :id", { id: id })
-        .execute();
-
+      const response = await this.ArticlesRepository.update(id, data);
       return {
         message: "success updating a Articles",
         data: response,
@@ -40,11 +31,7 @@ export default new (class ArticlesService {
   }
   async delete(id: number): Promise<object | string> {
     try {
-      const response = await this.ArticlesRepository.createQueryBuilder()
-        .delete()
-        .from(Articles)
-        .where("id = :id", { id: id })
-        .execute();
+      const response = await this.ArticlesRepository.delete(id);
 
       return {
         message: "success deleting a Articles",
@@ -55,9 +42,7 @@ export default new (class ArticlesService {
   }
   async getAll(): Promise<object | string> {
     try {
-      const response = await this.ArticlesRepository.createQueryBuilder()
-        .orderBy("id", "ASC")
-        .getMany();
+      const response = await this.ArticlesRepository.find();
 
       return {
         message: "success getting all Articles",
@@ -69,11 +54,7 @@ export default new (class ArticlesService {
   }
   async getOne(id: number): Promise<object | string> {
     try {
-      const response = await this.ArticlesRepository.createQueryBuilder(
-        "articles"
-      )
-        .where("articles.id = :id", { id })
-        .getOne();
+      const response = await this.ArticlesRepository.findBy({ id });
 
       return {
         message: "success getting a Articles",
@@ -85,18 +66,14 @@ export default new (class ArticlesService {
   }
   async getAllArticlesCard(): Promise<object | string> {
     try {
-      const response = await this.ArticlesRepository.createQueryBuilder(
-        "articles"
-      )
-        .orderBy("articles.id", "ASC")
-        .select([
-          "articles.id",
-          "articles.title",
-          "articles.author",
-          "articles.image",
-          "articles.date",
-        ])
-        .getMany();
+      const response = await this.ArticlesRepository.find({
+        select: [
+          'id',
+          'title',
+          'image',
+          'date',
+        ],
+      });
 
       return {
         message: "success getting Cards Articles",
@@ -108,18 +85,12 @@ export default new (class ArticlesService {
   }
   async getOneArticlesCard(id: number): Promise<object | string> {
     try {
-      const response = await this.ArticlesRepository.createQueryBuilder(
-        "articles"
-      )
-        .select([
-          "articles.id",
-          "articles.title",
-          "articles.author",
-          "articles.image",
-          "articles.date",
-        ])
-        .where("articles.id = :id", { id })
-        .getOne();
+      const response = await this.ArticlesRepository.find({where:{id}, select: [
+        'id',
+        'title',
+        'image',
+        'date',
+      ]})
 
       return {
         message: "success getting Cards Articles",
