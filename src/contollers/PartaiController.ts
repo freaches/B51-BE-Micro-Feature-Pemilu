@@ -1,18 +1,20 @@
 import { Request, Response } from "express";
-import ArticlesService from "../services/ArticlesService";
-import createArticlesSchema from "../utils/validator/ArticlesValidator";
+import PartaiService from "../services/PartaiService";
+import createArtcilesSchema from "../utils/validator/PartaiValidator";
 import cloudinary from "../libs/cloudinary";
 
-export default new (class ArticlesController {
+export default new (class PartaiController {
   async create(req: Request, res: Response) {
     try {
       const data = {
-        title : req.body.title,
-        description: req.body.description,
-        user : req.body.user,
+        name : req.body.name,
+        partyLeader : req.body.partyLeader,
+        visionMission : req.body.visionMission,
+        address : req.body.address,
+        paslon : req.body.paslon,
         image: res.locals.filename
       };
-      const { error, value } = createArticlesSchema.validate(data)
+      const { error, value } = createArtcilesSchema.validate(data)
       if(error) return res.status(400).json(error)
 
       cloudinary.upload()
@@ -22,10 +24,10 @@ export default new (class ArticlesController {
         image: cloudinaryRes.secure_url
       }
 
-      const response = await ArticlesService.create(obj);
+      const response = await PartaiService.create(obj);
       return res.status(201).json(response);
     } catch (error) {
-      console.error("Error creating a Article:", error);
+      console.error("Error creating a Partai:", error);
       return res
         .status(500)
         .json({ message: "Internal server error", error: error.message });
@@ -40,18 +42,11 @@ export default new (class ArticlesController {
           error: "Invalid input for type number",
         });
       }
-      const data = {
-        title : req.body.title,
-        description: req.body.description,
-        image: res.locals.filename
-      };
-      const { error, value } = createArticlesSchema.validate(data)
-      if(error) return res.status(400).json(value)
-
-      const response = await ArticlesService.update(id, value);
+      const data = req.body;
+      const response = await PartaiService.update(id, data);
       return res.status(201).json(response);
     } catch (error) {
-      console.error("Error updating a Article:", error);
+      console.error("Error updating a Partai:", error);
       return res
         .status(500)
         .json({ message: "Internal server error", error: error.message });
@@ -67,10 +62,10 @@ export default new (class ArticlesController {
         });
       }
 
-      const response = await ArticlesService.delete(id);
+      const response = await PartaiService.delete(id);
       return res.status(201).json(response);
     } catch (error) {
-      console.error("Error deleting a Article:", error);
+      console.error("Error deleting a Partai:", error);
       return res
         .status(500)
         .json({ message: "Internal server error", error: error.message });
@@ -79,10 +74,10 @@ export default new (class ArticlesController {
 
   async getAll(req: Request, res: Response) {
     try {
-      const response = await ArticlesService.getAll();
+      const response = await PartaiService.getAll();
       return res.status(200).json(response);
     } catch (error) {
-      console.error("Error getting all articles:", error);
+      console.error("Error getting all Partai:", error);
       return res
         .status(500)
         .json({ message: "Internal server error", error: error.message });
@@ -91,33 +86,10 @@ export default new (class ArticlesController {
   async getOne(req: Request, res: Response) {
     try {
       const id = parseInt(req.params.id, 10);
-      const response = await ArticlesService.getOne(id);
+      const response = await PartaiService.getOne(id);
       return res.status(200).json(response);
     } catch (error) {
-      console.error("Error creating a Article:", error);
-      return res
-        .status(500)
-        .json({ message: "Internal server error", error: error.message });
-    }
-  }
-  async getAllArticlesCard(req: Request, res: Response) {
-    try {
-      const response = await ArticlesService.getAllArticlesCard();
-      return res.status(200).json(response);
-    } catch (error) {
-      console.error("Error getting all articles:", error);
-      return res
-        .status(500)
-        .json({ message: "Internal server error", error: error.message });
-    }
-  }
-  async getOneArticlesCard(req: Request, res: Response) {
-    try {
-      const id = parseInt(req.params.id, 10);
-      const response = await ArticlesService.getOneArticlesCard(id);
-      return res.status(200).json(response);
-    } catch (error) {
-      console.error("Error getting a Article:", error);
+      console.error("Error getting a Partai:", error);
       return res
         .status(500)
         .json({ message: "Internal server error", error: error.message });

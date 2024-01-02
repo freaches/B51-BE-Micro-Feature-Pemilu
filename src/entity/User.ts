@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, UpdateDateColumn, OneToOne } from "typeorm"
 import { Articles } from "./Articles"
 import { Paslon } from "./Paslon"
+import { Vote } from "./Vote"
 
 export type UserRoleType = "admin" | "editor" | "ghost"
 export type UserGender = "male" | "female" 
@@ -23,10 +24,10 @@ export class User {
     gender: string
 
     @Column()
-    email: string
+    username: string
 
     @Column()
-    password: number
+    password: string
 
     @Column({
         type: "enum",
@@ -35,9 +36,28 @@ export class User {
     })
     role: UserRoleType
 
-    @OneToMany(() => Articles, (articles) => articles.user)
+    @OneToMany(() => Articles, (articles) => articles.user, {
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+    })
     articles : Articles[]
 
-    @ManyToOne(() => Paslon , (paslon) => paslon.user)
-    votePaslon : Paslon
+    @OneToOne(() => Vote , (vote) => vote.user , {
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+    })
+    vote : Vote
+
+    @CreateDateColumn({
+        type: "timestamp",
+        default: () => "CURRENT_TIMESTAMP",
+    })
+    createdAt: Date;
+
+    @UpdateDateColumn({
+        type: "timestamp",
+        default: () => "CURRENT_TIMESTAMP",
+        onUpdate: "CURRENT_TIMESTAMP",
+    })
+    updatedAt: Date;
 }

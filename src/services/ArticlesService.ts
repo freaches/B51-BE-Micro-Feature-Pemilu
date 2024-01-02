@@ -8,7 +8,11 @@ export default new (class ArticlesService {
 
   async create(data: any): Promise<object | string> {
     try {
-      const response = await this.ArticlesRepository.save(data);
+      const response = await this.ArticlesRepository.save({
+        ...data,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
 
       return {
         message: "success creating a new Articles",
@@ -20,7 +24,14 @@ export default new (class ArticlesService {
   }
   async update(id: number, data: any): Promise<object | string> {
     try {
-      const response = await this.ArticlesRepository.update(id, data);
+      if (typeof data.image === "undefined") {
+        const imageDb = await this.ArticlesRepository.findOneBy({ id });
+        data.image = imageDb[0].image;
+      }
+      const response = await this.ArticlesRepository.update(id, {
+        ...data,
+        updatedAt: new Date(),
+      });
       return {
         message: "success updating a Articles",
         data: response,
@@ -42,8 +53,16 @@ export default new (class ArticlesService {
   }
   async getAll(): Promise<object | string> {
     try {
-      const response = await this.ArticlesRepository.find();
-
+      const response = await this.ArticlesRepository.find({
+        relations: {
+          user: true,
+        },
+        select: {
+          user: {
+            name: true,
+          },
+        },
+      });
       return {
         message: "success getting all Articles",
         data: response,
@@ -54,7 +73,17 @@ export default new (class ArticlesService {
   }
   async getOne(id: number): Promise<object | string> {
     try {
-      const response = await this.ArticlesRepository.findBy({ id });
+      const response = await this.ArticlesRepository.findOne({
+        where: { id },
+        relations: {
+          user: true,
+        },
+        select: {
+          user: {
+            name: true,
+          },
+        },
+      });
 
       return {
         message: "success getting a Articles",
@@ -67,16 +96,23 @@ export default new (class ArticlesService {
   async getAllArticlesCard(): Promise<object | string> {
     try {
       const response = await this.ArticlesRepository.find({
-        select: [
-          'id',
-          'title',
-          'image',
-          'date',
-        ],
+        relations: {
+          user: true,
+        },
+        select: {
+          id: true,
+          title: true,
+          image: true,
+          createdAt: true,
+          updatedAt: true,
+          user: {
+            name: true,
+          },
+        },
       });
 
       return {
-        message: "success getting Cards Articles",
+        message: "success getting all Cards Articles",
         data: response,
       };
     } catch (error) {
@@ -85,15 +121,25 @@ export default new (class ArticlesService {
   }
   async getOneArticlesCard(id: number): Promise<object | string> {
     try {
-      const response = await this.ArticlesRepository.find({where:{id}, select: [
-        'id',
-        'title',
-        'image',
-        'date',
-      ]})
+      const response = await this.ArticlesRepository.find({
+        where: { id },
+        relations: {
+          user: true,
+        },
+        select: {
+          id: true,
+          title: true,
+          image: true,
+          createdAt: true,
+          updatedAt: true,
+          user: {
+            name: true,
+          },
+        },
+      });
 
       return {
-        message: "success getting Cards Articles",
+        message: "success getting a Card Articles",
         data: response,
       };
     } catch (error) {

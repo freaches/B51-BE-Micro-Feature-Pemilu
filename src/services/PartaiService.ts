@@ -8,7 +8,11 @@ export default new (class PartaiService {
 
   async create(data: any): Promise<object | string> {
     try {
-      const response = await this.PartaiRepository.save(data);
+      const response = await this.PartaiRepository.save({
+        ...data,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
 
       return {
         message: "success creating a new Partai",

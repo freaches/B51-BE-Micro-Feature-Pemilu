@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn } from "typeorm"
 import { User } from "./User"
 
 @Entity({name : "articles"})
@@ -16,9 +16,22 @@ export class Articles {
     @Column()
     image: string
 
-    @Column("date")
-    date: string
-
-    @ManyToOne(() => User, (user) => user.articles)
+    @ManyToOne(() => User, (user) => user.articles, {
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+    })
     user : User
+
+    @CreateDateColumn({
+        type: "timestamp",
+        default: () => "CURRENT_TIMESTAMP",
+    })
+    createdAt: Date;
+
+    @UpdateDateColumn({
+        type: "timestamp",
+        default: () => "CURRENT_TIMESTAMP",
+        onUpdate: "CURRENT_TIMESTAMP",
+    })
+    updatedAt: Date;
 }

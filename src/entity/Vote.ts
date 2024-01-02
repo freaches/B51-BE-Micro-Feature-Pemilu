@@ -1,28 +1,21 @@
-import { Entity, PrimaryGeneratedColumn, Column, UpdateDateColumn, CreateDateColumn, ManyToMany, JoinTable, ManyToOne } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from "typeorm"
 import { Paslon } from "./Paslon"
+import { User } from "./User"
 
-@Entity({name : "partai"})
-export class Partai {
+@Entity({name:"votes"})
+export class Vote {
 
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
-    name: string
+    @OneToOne(() => User, (users) => users.vote, {
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+    })
+    @JoinColumn()
+    user : User
 
-    @Column()
-    partyLeader: string
-
-    @Column("text")
-    visionMission: string
-    
-    @Column()
-    address: string
-
-    @Column()
-    image: string
-
-    @ManyToOne(() => Paslon, (paslon) => paslon.partai, {
+    @ManyToOne(() => Paslon , (paslon) => paslon.vote, {
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
     })

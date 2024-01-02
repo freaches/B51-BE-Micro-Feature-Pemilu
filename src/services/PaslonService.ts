@@ -8,7 +8,11 @@ export default new (class PaslonService {
 
   async create(data: any): Promise<object | string> {
     try {
-      const response = await this.PaslonRepository.save(data);
+      const response = await this.PaslonRepository.save({
+        ...data,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
 
       return {
         message: "success creating a new Paslon",
@@ -42,7 +46,11 @@ export default new (class PaslonService {
   }
   async getAll(): Promise<object | string> {
     try {
-      const response = await this.PaslonRepository.find();
+      const response = await this.PaslonRepository.find({relations:["partai"], select:{
+        partai :{
+          name: true
+        }
+      }});
 
       return {
         message: "success getting all Paslon",

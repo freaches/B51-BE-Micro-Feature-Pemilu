@@ -1,11 +1,12 @@
 import * as Joi from "joi"
 
-const createArtcilesSchema = Joi.object({
-    title: Joi.string().min(10).max(250),
-    author : Joi.string().alphanum().min(10).max(250),
-    description : Joi.string(),
-    image : Joi.string(),
-    date : Joi.string()
+const createArticlesSchema = Joi.object({
+    title: Joi.string().max(250).required(),
+    description : Joi.string().required(),
+    image : Joi.string().required(),
+    user : Joi.number().required(),
+    createdAt : Joi.date(),
+    updateAt : Joi.date()
 })
 
-export default createArtcilesSchema
+export default createArticlesSchema

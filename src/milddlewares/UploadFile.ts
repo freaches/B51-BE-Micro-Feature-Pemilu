@@ -10,7 +10,7 @@ export default new (class UploadImage {
       },
 
       filename: (req, file, cb) => {
-        cb(null, file.originalname + "-" + Date.now() + ".png"); /// 1231242315-img.png
+        cb(null, `${file.fieldname}-${Date.now()}.png`); /// 1231242315-img.png
       },
     });
 
