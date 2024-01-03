@@ -16,4 +16,4 @@ export default new (class CloudinaryConfig {
       throw error;
     }
   }
-});
+})();

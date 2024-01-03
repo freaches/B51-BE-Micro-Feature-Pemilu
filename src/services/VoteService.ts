@@ -42,16 +42,19 @@ export default new (class VoteService {
   }
   async getAll(): Promise<object | string> {
     try {
-      const response = await this.VoteRepository.find({relations:["user", "paslon"], select:{
-        user :{
-          name : true,
-          address: true,
-          gender : true
+      const response = await this.VoteRepository.find({
+        relations: ["user", "paslon"],
+        select: {
+          user: {
+            name: true,
+            address: true,
+            gender: true,
+          },
+          paslon: {
+            name: true,
+          },
         },
-        paslon :{
-          name: true
-        }
-      }});
+      });
 
       return {
         message: "success getting all Vote",
@@ -63,16 +66,20 @@ export default new (class VoteService {
   }
   async getOne(id: number): Promise<object | string> {
     try {
-      const response = await this.VoteRepository.findOne({ where: {id} , relations:["user", "paslon"], select:{
-        user :{
-          name : true,
-          address: true,
-          gender : true
+      const response = await this.VoteRepository.findOne({
+        where: { id },
+        relations: ["user", "paslon"],
+        select: {
+          user: {
+            name: true,
+            address: true,
+            gender: true,
+          },
+          paslon: {
+            name: true,
+          },
         },
-        paslon :{
-          name: true
-        }
-      }});
+      });
 
       return {
         message: "success getting a Vote",

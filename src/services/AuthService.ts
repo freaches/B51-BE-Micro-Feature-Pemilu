@@ -50,6 +50,7 @@ export default new (class AuthService {
         address: idCheck.address,
         gender: idCheck.gender,
         username: idCheck.username,
+        role: idCheck.role
       });
 
       const token = jwt.sign({ obj }, "LEBATAMAT", { expiresIn: "1h" });

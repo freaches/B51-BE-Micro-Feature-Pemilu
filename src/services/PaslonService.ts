@@ -46,11 +46,14 @@ export default new (class PaslonService {
   }
   async getAll(): Promise<object | string> {
     try {
-      const response = await this.PaslonRepository.find({relations:["partai"], select:{
-        partai :{
-          name: true
-        }
-      }});
+      const response = await this.PaslonRepository.find({
+        relations: ["partai"],
+        select: {
+          partai: {
+            name: true,
+          },
+        },
+      });
 
       return {
         message: "success getting all Paslon",
