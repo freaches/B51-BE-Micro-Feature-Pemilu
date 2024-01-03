@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import * as multer from "multer";
 import path = require("path");
 
-export default new (class UploadImage {
+export default new (class UploadFile {
   upload(fieldName: string) {
     const storage = multer.diskStorage({
       destination: (req, res, cb) => {

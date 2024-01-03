@@ -1,15 +1,15 @@
 import { Request, Response } from "express";
-import UserService from "../services/UserService";
-import { createUserSchema } from "../utils/validator/UserValidator";
+import AuthService from "../services/AuthService";
+import { createUserSchema, loginUserSchema } from "../utils/validator/AuthValidator";
 
-export default new (class UserController {
+export default new (class AuthController {
   async register(req: Request, res: Response) {
     try {
       const data = req.body;
       const { error, value } = createUserSchema.validate(data);
       if (error) return res.status(400).json(error);
 
-      const response = await UserService.register(value);
+      const response = await AuthService.register(value);
       return res.status(201).json(response);
     } catch (error) {
       console.error("Error creating a user", error);
@@ -22,10 +22,10 @@ export default new (class UserController {
   async login(req: Request, res: Response) {
     try {
       const data = req.body;
-      const { error, value } = createUserSchema.validate(data);
+      const { error, value } = loginUserSchema.validate(data);
       if (error) return res.status(400).json(error);
 
-      const response = await UserService.login(value);
+      const response = await AuthService.login(value);
       return res.status(201).json(response);
     } catch (error) {
       console.error("Error logging in", error);
@@ -53,7 +53,7 @@ export default new (class UserController {
       const { error, value } = createUserSchema.validate(data);
       if (error) return res.status(400).json(error);
 
-      const response = await UserService.update(id, value);
+      const response = await AuthService.update(id, value);
       return res.status(201).json(response);
     } catch (error) {
       console.error("Error updating a User:", error);
@@ -73,7 +73,7 @@ export default new (class UserController {
         });
       }
 
-      const response = await UserService.delete(id);
+      const response = await AuthService.delete(id);
       return res.status(200).json(response);
     } catch (error) {
       console.error("Error deleting a user", error);
@@ -85,7 +85,7 @@ export default new (class UserController {
 
   async getAll(req: Request, res: Response) {
     try {
-      const response = await UserService.getAll();
+      const response = await AuthService.getAll();
       return res.status(200).json(response);
     } catch (error) {
       console.error("Error getting all User:", error);
@@ -98,7 +98,7 @@ export default new (class UserController {
   async getOne(req: Request, res: Response) {
     try {
       const id = parseInt(req.params.id, 10);
-      const response = await UserService.getOne(id);
+      const response = await AuthService.getOne(id);
       return res.status(200).json(response);
     } catch (error) {
       console.error("Error getting a user:", error);
