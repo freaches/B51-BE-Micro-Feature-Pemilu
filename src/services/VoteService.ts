@@ -8,10 +8,15 @@ export default new (class VoteService {
 
   async create(data: any): Promise<object | string> {
     try {
+      const checkVoter = await this.VoteRepository.countBy({
+        user: { id: data.user },
+      });
+      if (checkVoter) return `Vote has already been done`;
+
       const response = await this.VoteRepository.save(data);
 
       return {
-        message: "success creating a new Vote",
+        message: "success voting",
         data: response,
       };
     } catch (error) {
@@ -55,9 +60,10 @@ export default new (class VoteService {
           },
         },
       });
-
+      const countVoters = await this.VoteRepository.count();
       return {
         message: "success getting all Vote",
+        jumlahVoters: countVoters,
         data: response,
       };
     } catch (error) {

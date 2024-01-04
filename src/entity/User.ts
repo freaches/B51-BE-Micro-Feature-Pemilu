@@ -1,6 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, UpdateDateColumn, OneToOne } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from "typeorm"
 import { Articles } from "./Articles"
-import { Paslon } from "./Paslon"
 import { Vote } from "./Vote"
 
 export type UserRoleType = "admin" | "editor" | "ghost"

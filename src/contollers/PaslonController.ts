@@ -1,29 +1,25 @@
 import { Request, Response } from "express";
 import PaslonService from "../services/PaslonService";
 import createPaslonSchema from "../utils/validator/PaslonValidator";
-import cloudinary from "../libs/cloudinary";
 
 export default new (class PaslonController {
+
   async create(req: Request, res: Response) {
     try {
+      const loginSession = res.locals.loginSession.obj;
+      if (loginSession.role !== 'admin')
+        return res.status(401).json({ message: "unauthorize" });
+
       const data = {
         name: req.body.name,
         numberPaslon: req.body.numberPaslon,
         visionMission: req.body.visionMission,
-        partai : req.body.partai,
         image: res.locals.filename,
       };
       const { error, value } = createPaslonSchema.validate(data);
       if (error) return res.status(400).json(error);
 
-      cloudinary.upload();
-      const cloudinaryRes = await cloudinary.destination(value.image);
-      const obj = {
-        ...value,
-        image: cloudinaryRes.secure_url,
-      };
-
-      const response = await PaslonService.create(obj);
+      const response = await PaslonService.create(value);
       return res.status(201).json(response);
     } catch (error) {
       console.error("Error creating a Paslon:", error);
@@ -34,6 +30,10 @@ export default new (class PaslonController {
   }
   async update(req: Request, res: Response) {
     try {
+      const loginSession = res.locals.loginSession.obj;
+      if (loginSession.role !== 'admin')
+        return res.status(401).json({ message: "unauthorize" });
+
       const id = parseInt(req.params.id, 10);
       if (isNaN(id)) {
         return res.status(400).json({
@@ -61,6 +61,10 @@ export default new (class PaslonController {
   }
   async delete(req: Request, res: Response) {
     try {
+      const loginSession = res.locals.loginSession.obj;
+      if (loginSession.role !== 'admin')
+        return res.status(401).json({ message: "unauthorize" });
+      
       const id = parseInt(req.params.id, 10);
       if (isNaN(id)) {
         return res.status(400).json({

@@ -1,6 +1,7 @@
 import { Repository } from "typeorm";
 import { Paslon } from "../entity/Paslon";
 import { AppDataSource } from "../data-source";
+import cloudinary from "../libs/cloudinary";
 
 export default new (class PaslonService {
   private readonly PaslonRepository: Repository<Paslon> =
@@ -8,11 +9,23 @@ export default new (class PaslonService {
 
   async create(data: any): Promise<object | string> {
     try {
-      const response = await this.PaslonRepository.save({
-        ...data,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      });
+      let countPaslon = await this.PaslonRepository.count();
+      if (
+        data.numberPaslon < countPaslon + 1 ||
+        data.numberPaslon > countPaslon + 1
+      )
+        return `masukan nomor urut paslon sesuai, yaitu ${countPaslon + 1}`;
+      
+        cloudinary.upload();
+        const cloudinaryRes = await cloudinary.destination(data.image);
+        
+        const obj = await this.PaslonRepository.create({
+          ...data,
+          image: cloudinaryRes.secure_url,
+        });
+  
+
+      const response = await this.PaslonRepository.save(obj);
 
       return {
         message: "success creating a new Paslon",
@@ -65,7 +78,14 @@ export default new (class PaslonService {
   }
   async getOne(id: number): Promise<object | string> {
     try {
-      const response = await this.PaslonRepository.findBy({ id });
+      const response = await this.PaslonRepository.find({where : {id : id},
+        relations: ["partai"],
+        select: {
+          partai: {
+            name: true,
+          },
+        },
+      });
 
       return {
         message: "success getting a Paslon",

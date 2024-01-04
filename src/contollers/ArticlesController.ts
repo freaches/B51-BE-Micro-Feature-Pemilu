@@ -6,21 +6,27 @@ import cloudinary from "../libs/cloudinary";
 export default new (class ArticlesController {
   async create(req: Request, res: Response) {
     try {
-      const data = {
-        title : req.body.title,
-        description: req.body.description,
-        user : req.body.user,
-        image: res.locals.filename
-      };
-      const { error, value } = createArticlesSchema.validate(data)
-      if(error) return res.status(400).json(error)
+      const loginSession = res.locals.loginSession.obj;
+      if (loginSession.role !== 'admin')
+        return res.status(401).json({ message: "unauthorize" });
 
-      cloudinary.upload()
-      const cloudinaryRes = await cloudinary.destination(value.image)
+      const data = {
+        title: req.body.title,
+        description: req.body.description,
+        user: loginSession.id,
+        image: res.locals.filename,
+      };
+
+      const { error, value } = createArticlesSchema.validate(data);
+      if (error) return res.status(400).json(error);
+
+      cloudinary.upload();
+      const cloudinaryRes = await cloudinary.destination(value.image);
+
       const obj = {
         ...value,
-        image: cloudinaryRes.secure_url
-      }
+        image: cloudinaryRes.secure_url,
+      };
 
       const response = await ArticlesService.create(obj);
       return res.status(201).json(response);
@@ -33,6 +39,10 @@ export default new (class ArticlesController {
   }
   async update(req: Request, res: Response) {
     try {
+      const loginSession = res.locals.loginSession.obj;
+      if (loginSession.role !== "admin")
+        return res.status(401).json({ message: "unauthorize" });
+
       const id = parseInt(req.params.id, 10);
       if (isNaN(id)) {
         return res.status(400).json({
@@ -41,12 +51,12 @@ export default new (class ArticlesController {
         });
       }
       const data = {
-        title : req.body.title,
+        title: req.body.title,
         description: req.body.description,
-        image: res.locals.filename
+        image: res.locals.filename,
       };
-      const { error, value } = createArticlesSchema.validate(data)
-      if(error) return res.status(400).json(value)
+      const { error, value } = createArticlesSchema.validate(data);
+      if (error) return res.status(400).json(value);
 
       const response = await ArticlesService.update(id, value);
       return res.status(201).json(response);
@@ -59,6 +69,10 @@ export default new (class ArticlesController {
   }
   async delete(req: Request, res: Response) {
     try {
+      const loginSession = res.locals.loginSession.obj;
+      if (loginSession.role !== "admin")
+        return res.status(401).json({ message: "unauthorize" });
+
       const id = parseInt(req.params.id, 10);
       if (isNaN(id)) {
         return res.status(400).json({
@@ -123,4 +137,4 @@ export default new (class ArticlesController {
         .json({ message: "Internal server error", error: error.message });
     }
   }
-});
+})();

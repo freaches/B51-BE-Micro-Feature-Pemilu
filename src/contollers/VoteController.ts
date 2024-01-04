@@ -5,10 +5,13 @@ import createvVoteSchema from "../utils/validator/VoteValidator";
 export default new (class VoteController {
   async create(req: Request, res: Response) {
     try {
-      const data = req.body
-      const { error, value } = createvVoteSchema.validate(data)
+      const loginSession = res.locals.loginSession.obj;
+      const data = { paslon: req.body.voting, 
+        user: loginSession.id,
+         };
 
-      if(error) return res.status(400).json(error)
+      const { error, value } = createvVoteSchema.validate(data);
+      if (error) return res.status(400).json(error);
 
       const response = await VoteService.create(value);
       return res.status(201).json(response);
@@ -81,4 +84,4 @@ export default new (class VoteController {
         .json({ message: "Internal server error", error: error.message });
     }
   }
-});
+})();

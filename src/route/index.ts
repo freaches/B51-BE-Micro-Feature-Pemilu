@@ -19,7 +19,7 @@ routes.put(
   AuthMiddleware.Auth,
   UserController.update
 );
-routes.delete("/user/:id", AuthMiddleware.Auth, AuthController.delete);
+routes.delete("/user/:id", AuthMiddleware.Auth, UserController.delete);
 routes.post("/auth/register", upload.any(), AuthController.register);
 routes.post("/auth/login", upload.any(), AuthController.login);
 
