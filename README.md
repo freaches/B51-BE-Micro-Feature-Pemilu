@@ -10,9 +10,10 @@ Steps to use authorization on postman:
 ## LIST OF CONTENT
 1. [AUTH](#AUTH)
 2. [ARTICLES](#ARTICLE)
-5. [VOTE](#VOTE)
-3. [PASLON](#PASLON)
-4. [PARTAI](#PARTAI)
+3. [VOTE](#VOTE)
+4. [PASLON](#PASLON)
+5. [PARTAI](#PARTAI)
+6. [NOTE](#NOTE)
 
 ## **AUTH**
 1. Register Admin
@@ -74,7 +75,7 @@ Steps to use authorization on postman:
     password    = akusukapisang
 ```
 
-note: you will received token which is used to authorization
+note: you will receive token that you can use to do authorization with
 
 ## **ARTICLES**
 
@@ -118,7 +119,7 @@ note: you will received token which is used to authorization
 * Url       : http://localhost:5000/api/v1/articles/{article-id}
 * Method    : `DELETE`
 
-note : you can user article card for your homepage
+note : you can use article card for the homepage
 
 ## **VOTE**
 
@@ -215,5 +216,5 @@ note : user and admin can do voting
 * Url       : http://localhost:5000/api/v1/partai/{partai-id}
 * Method    : `DELETE`
 
-#### Note
+#### NOTE
 * you can update everything or just update the part that you need, no need to reupload image.
