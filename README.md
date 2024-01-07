@@ -53,7 +53,7 @@ Steps to use authorization on postman:
 ```
 
 3. Login
-* Url       : http://localhost:5000/api/v1/user/login
+* Url       : http://localhost:5000/api/v1/login
 * Method    : `POST`
 * Json body example :
 
@@ -74,8 +74,16 @@ note: you will received token which is used to authorization
 * Url       : http://localhost:5000/api/v1/articles/{article-id}
 * Method    : `GET`
 
-3. Create a article (required admin authorizaton)
-* Url       : http://localhost:5000/api/v1/articles/add
+3. Getting all articles cards (no authorization)
+* Url       : http://localhost:5000/api/v1/articles-card
+* Method    : `GET`
+  
+4. Getting a article card (no authorization)
+* Url       : http://localhost:5000/api/v1/articles-card/{article-id}
+* Method    : `GET`
+
+5. Create a article (required admin authorizaton)
+* Url       : http://localhost:5000/api/v1/articles/
 * Method    : `POST`
 * Form-data body example :
 ```
@@ -84,7 +92,7 @@ note: you will received token which is used to authorization
     image       = miku.png
 ```
 
-4. Update a article (required admin authorizaton)  
+6. Update a article (required admin authorizaton)  
 * Url       : http://localhost:5000/api/v1/articles/{article-id}
 * Method    : `PATCH`
 * Form-data body example :
@@ -94,39 +102,49 @@ note: you will received token which is used to authorization
     image       = miku.png
 ```
 
-5. Delete a article (required admin authorization)
+7. Delete a article (required admin authorization)
 * Url       : http://localhost:5000/api/v1/articles/{article-id}
 * Method    : `DELETE`
 
+note : you can user article card for your homepage
+
 ### C. Voter
 
-1. Getting all vote (required admin authorization)
-* Url       : http://localhost:5000/api/v1/voters/findall
+1. Getting all voters data (required admin authorization)
+* Url       : http://localhost:5000/api/v1/vote
+* Method    : `GET`
+
+2. Getting a voter data (required admin authorization)
+* Url       : http://localhost:5000/api/v1/vote/{vote-id}
 * Method    : `GET`
 
 2. Voting (required authorization)
-* Url       : http://localhost:5000/api/v1/voters/vote
+* Url       : http://localhost:5000/api/v1/vote/
 * Method    : `POST`
 * Json body example :
 
         {
             "paslonNumber" : 1
         }
+* Form-data body example :
+```
+    paslonNumber = 1
+```
 
 note : user and admin can do voting
 
 ### D. Paslon
 
 1. Getting all paslon (no authorization)
-* Url       : http://localhost:5000/api/v1/paslons
+* Url       : http://localhost:5000/api/v1/paslon
 * Method    : `GET`
   
 2. Getting a paslon (no authorization)
-* Url       : http://localhost:5000/api/v1/paslons/{paslon-id}
+* Url       : http://localhost:5000/api/v1/paslon/{paslon-id}
 * Method    : `GET`
 
 3. Create a paslon (required admin authorizaton)
-* Url       : http://localhost:5000/api/v1/paslons/add
+* Url       : http://localhost:5000/api/v1/paslon
 * Method    : `POST`
 * Form-data body example :
 ````
@@ -135,7 +153,7 @@ note : user and admin can do voting
     image         = slamet.png
 ````
 4. Update a paslon (required admin authorizaton)
-* Url       : http://localhost:5000/api/v1/paslons/{paslon-id}
+* Url       : http://localhost:5000/api/v1/paslon/{paslon-id}
 * Method    : patch
 * Form-data body example :
 ```
@@ -144,44 +162,46 @@ note : user and admin can do voting
     image         = slamet.png
 ```
 5. Delete a paslon (required admin authorization)
-* Url       : http://localhost:5000/api/v1/paslons/{paslon-id}
+* Url       : http://localhost:5000/api/v1/paslon/{paslon-id}
 * Method    : `DELETE`
 
 ### E. Partai
 
-1. Getting all partais (no authorization)
-* Url       : http://localhost:5000/api/v1/partais
+1. Getting all partai (no authorization)
+* Url       : http://localhost:5000/api/v1/partai
 * Method    : `GET`
   
 2. Getting a partai (no authorization)
-* Url       : http://localhost:5000/api/v1/partais/{partai-id}
+* Url       : http://localhost:5000/api/v1/partai/{partai-id}
 * Method    : `GET`
 
 3. Create a partai (required admin authorizaton)
-* Url       : http://localhost:5000/api/v1/partais/add
+* Url       : http://localhost:5000/api/v1/partai
 * Method    : `POST`
 * Form-data body example :
 ```
-    name          = PBG
-    leader        = Slamet Wilujeng
-    visionMission = Menghijaukan bumi
-    address       = Hutan Jaya
-    image         = slamet.png
-    paslonId      = 1
+    name            = PBG
+    partyLeader     = Slamet Wilujeng
+    visionMission   = Menghijaukan bumi
+    address         = Hutan Jaya
+    image           = slamet.png
+    paslonId        = 1
 ```
 4. Update a partai (required admin authorizaton)
-* Url       : http://localhost:5000/api/v1/partais/{{paslon-id}}
+* Url       : http://localhost:5000/api/v1/partai/{partai-id}
 * Method    : `PATCH`
 * Form-data body example :
 ```
-    name          = PBG
-    leader        = Slamet Wilujeng
-    visionMission = Menghijaukan bumi
-    address       = Hutan Jaya
-    image         = slamet.png
-    paslonId      = 1
+    name            = PBG
+    partyLeader     = Slamet Wilujeng
+    visionMission   = Menghijaukan bumi
+    address         = Hutan Jaya
+    image           = slamet.png
+    paslonId        = 1
 ```
 5. Delete a partai (required admin authorization)
-* Url       : http://localhost:5000/api/v1/partais/{{paslon-id}}
+* Url       : http://localhost:5000/api/v1/partai/{partai-id}
 * Method    : `DELETE`
 
+#### Note
+* you can update everything or just update the part that you need, no need to reupload image.

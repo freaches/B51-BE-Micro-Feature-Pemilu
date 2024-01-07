@@ -23,28 +23,6 @@ export default new (class VoteService {
       return "message: something error while creating a new Vote";
     }
   }
-  async update(id: number, data: any): Promise<object | string> {
-    try {
-      const response = await this.VoteRepository.update(id, data);
-      return {
-        message: "success updating a Vote",
-        data: response,
-      };
-    } catch (error) {
-      return "message: something error while updating a Vote";
-    }
-  }
-  async delete(id: number): Promise<object | string> {
-    try {
-      const response = await this.VoteRepository.delete(id);
-
-      return {
-        message: "success deleting a Vote",
-      };
-    } catch (error) {
-      return "message: something error while deleting a Vote";
-    }
-  }
   async getAll(): Promise<object | string> {
     try {
       const response = await this.VoteRepository.find({

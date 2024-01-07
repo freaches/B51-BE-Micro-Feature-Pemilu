@@ -35,6 +35,12 @@ export default new (class VoteController {
   async getOne(req: Request, res: Response) {
     try {
       const id = parseInt(req.params.id, 10);
+      if (isNaN(id)) {
+        return res.status(400).json({
+          message: "Invalid ID provided",
+          error: "Invalid input for type number",
+        });
+      }
       const response = await VoteService.getOne(id);
       return res.status(200).json(response);
     } catch (error) {
