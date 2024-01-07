@@ -13,14 +13,13 @@ export class User {
     @Column()
     name: string
 
-    @Column({nullable : true})
+    @Column()
     address: string
 
     @Column({
         type: "enum",
         enum : ["male","female"],
-        nullable : true
-    })
+        })
     gender: UserGender
 
     @Column()

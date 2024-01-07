@@ -6,7 +6,7 @@ export default new (class VoteController {
   async create(req: Request, res: Response) {
     try {
       const loginSession = res.locals.loginSession.obj;
-      const data = { paslon: req.body.voting, user: loginSession.id };
+      const data = { paslon: req.body.paslonNumber, user: loginSession.id };
 
       const { error, value } = createvVoteSchema.validate(data);
       if (error) return res.status(400).json(error);
