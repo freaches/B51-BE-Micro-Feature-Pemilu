@@ -9,7 +9,7 @@ Steps to use authorization on postman:
 
 ## LIST OF CONTENT
 1. [AUTH](#AUTH)
-2. [ARTICLES](#ARTICLE)
+2. [ARTICLES](#ARTICLES)
 3. [VOTE](#VOTE)
 4. [PASLON](#PASLON)
 5. [PARTAI](#PARTAI)
