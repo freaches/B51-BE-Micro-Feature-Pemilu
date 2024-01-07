@@ -9,12 +9,12 @@ Steps to use authorization on postman:
 
 ## LIST OF CONTENT
 1. [AUTH](#AUTH)
-2. [ARTICLES](#ARTICLES)
+2. [ARTICLES](#ARTICLE)
 5. [VOTE](#VOTE)
 3. [PASLON](#PASLON)
 4. [PARTAI](#PARTAI)
 
-## A. **AUTH**
+## **AUTH**
 1. Register Admin
 * Url : http://localhost:5000/api/v1/admin/register
 * Method : `POST`
