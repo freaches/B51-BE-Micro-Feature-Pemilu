@@ -23,6 +23,10 @@ export default new (class VoteController {
 
   async getAll(req: Request, res: Response) {
     try {
+      const loginSession = res.locals.loginSession.obj;
+      if (loginSession.role !== "admin")
+        return res.status(401).json({ message: "unauthorize" });
+
       const response = await VoteService.getAll();
       return res.status(200).json(response);
     } catch (error) {
@@ -34,6 +38,10 @@ export default new (class VoteController {
   }
   async getOne(req: Request, res: Response) {
     try {
+      const loginSession = res.locals.loginSession.obj;
+      if (loginSession.role !== "admin")
+        return res.status(401).json({ message: "unauthorize" });
+      
       const id = parseInt(req.params.id, 10);
       if (isNaN(id)) {
         return res.status(400).json({
