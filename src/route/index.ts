@@ -33,8 +33,8 @@ routes.patch("/paslon/:id",AuthMiddleware.Auth,UploadFile.upload("image"),Paslon
 routes.delete("/paslon/:id", AuthMiddleware.Auth, PaslonController.delete);
 routes.post("/paslon",AuthMiddleware.Auth,UploadFile.upload("image"),PaslonController.create);
 
-routes.get("/vote", VoteController.getAll);
-routes.get("/vote/:id", VoteController.getOne);
+routes.get("/vote",AuthMiddleware.Auth, VoteController.getAll);
+routes.get("/vote/:id",AuthMiddleware.Auth, VoteController.getOne);
 routes.post("/vote", AuthMiddleware.Auth, upload.any(), VoteController.create);
 
 routes.post("/articles",AuthMiddleware.Auth,UploadFile.upload("image"),ArticlesController.create);

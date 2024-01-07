@@ -30,10 +30,7 @@ export default new (class UserService {
   }
   async getAll(): Promise<object | string> {
     try {
-      const response = await this.UserRepository.find({
-        where: { role: "ghost" },
-        select: ["id", "name", "address", "gender", "username", "role"],
-      });
+      const response = await this.UserRepository.find();
 
       return {
         message: "success getting all Peserta pemilu",

@@ -9,11 +9,12 @@ Steps to use authorization on postman:
 
 ## LIST OF CONTENT
 1. [AUTH](#AUTH)
-2. [ARTICLES](#ARTICLES)
-3. [VOTE](#VOTE)
+2. [USER](#USER)
+3. [ARTICLES](#ARTICLES)
 4. [PASLON](#PASLON)
 5. [PARTAI](#PARTAI)
-6. [NOTE](#NOTE)
+6. [VOTE](#VOTE)
+7. [NOTE](#NOTE)
 
 ## **AUTH**
 1. Register Admin
@@ -77,6 +78,60 @@ Steps to use authorization on postman:
 
 note: you will receive token that you can use to do authorization with
 
+## **USER**
+
+1. Getting all user (required admin authorizaton)
+* Url       : http://localhost:5000/api/v1/user
+* Method    : `GET`
+  
+2. Getting a user (required admin authorizaton)
+* Url       : http://localhost:5000/api/v1/user/{user-id}
+* Method    : `GET`
+
+3. Getting personal information (required authorizaton)
+* Url       : http://localhost:5000/api/v1/user-current
+* Method    : `GET`
+  
+4. Updating personal information (required authorization)
+* Url       : http://localhost:5000/api/v1/user-current
+* Method    : `PATCH`
+* Json body example :
+
+        {
+            "name" : "Slamet Wilujeng",
+            "address" : "Desa Kokoyashi no 3 Pulau Cocoon",
+            "gender" : "male"
+        }
+
+*  Form-data body example :
+```
+    name        = Slamet Wilujeng,
+    address     = Desa Kokoyashi no 3 Pulau Cocoon
+    gender      = male
+```
+
+5. Update a user (required admin authorizaton)  
+* Url       : http://localhost:5000/api/v1/user/{user-id}
+* Method    : `PATCH`
+* Json body example :
+
+        {
+            "name" : "Slamet Wilujeng",
+            "address" : "Desa Kokoyashi no 3 Pulau Cocoon",
+            "gender" : "male"
+        }
+
+*  Form-data body example :
+```
+    name        = Slamet Wilujeng,
+    address     = Desa Kokoyashi no 3 Pulau Cocoon
+    gender      = male
+```
+
+6. Delete a user (required admin authorization)
+* Url       : http://localhost:5000/api/v1/user/{user-id}
+* Method    : `DELETE`
+
 ## **ARTICLES**
 
 1. Getting all articles (no authorization)
@@ -120,31 +175,6 @@ note: you will receive token that you can use to do authorization with
 * Method    : `DELETE`
 
 note : you can use article card for the homepage
-
-## **VOTE**
-
-1. Getting all voters data (required admin authorization)
-* Url       : http://localhost:5000/api/v1/vote
-* Method    : `GET`
-
-2. Getting a voter data (required admin authorization)
-* Url       : http://localhost:5000/api/v1/vote/{vote-id}
-* Method    : `GET`
-
-2. Voting (required authorization)
-* Url       : http://localhost:5000/api/v1/vote/
-* Method    : `POST`
-* Json body example :
-
-        {
-            "paslonNumber" : 1
-        }
-* Form-data body example :
-```
-    paslonNumber = 1
-```
-
-note : user and admin can do voting
 
 ## **PASLON**
 
@@ -216,5 +246,29 @@ note : user and admin can do voting
 * Url       : http://localhost:5000/api/v1/partai/{partai-id}
 * Method    : `DELETE`
 
+## **VOTE**
+
+1. Getting all voters data (required admin authorization)
+* Url       : http://localhost:5000/api/v1/vote
+* Method    : `GET`
+
+2. Getting a voter data (required admin authorization)
+* Url       : http://localhost:5000/api/v1/vote/{vote-id}
+* Method    : `GET`
+
+2. Voting (required authorization)
+* Url       : http://localhost:5000/api/v1/vote/
+* Method    : `POST`
+* Json body example :
+
+        {
+            "paslonNumber" : 1
+        }
+* Form-data body example :
+```
+    paslonNumber = 1
+```
+
 #### NOTE
 * you can update everything or just update the part that you need, no need to reupload image.
+* user and admin can do voting
