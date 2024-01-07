@@ -9,8 +9,8 @@ Steps to use authorization on postman:
 
 ### A. Admin and User
 1. Register Admin
-* url : http://localhost:5000/api/v1/admin/register
-* method : `POST`
+* Url : http://localhost:5000/api/v1/admin/register
+* Method : `POST`
 * Json body example :
 
         {
@@ -31,8 +31,8 @@ Steps to use authorization on postman:
 ```
 
 2. Register User
-* url : http://localhost:5000/api/v1/user/register
-* method : `POST`
+* Url : http://localhost:5000/api/v1/user/register
+* Method : `POST`
 * Json body example :
 
         {
@@ -61,6 +61,11 @@ Steps to use authorization on postman:
             "username" : "Eslamet",
             "password" : "akusukapisang"
         }
+*  Form-data body example :
+```
+    username    = Eslamet
+    password    = akusukapisang
+```
 
 note: you will received token which is used to authorization
 
@@ -154,7 +159,7 @@ note : user and admin can do voting
 ````
 4. Update a paslon (required admin authorizaton)
 * Url       : http://localhost:5000/api/v1/paslon/{paslon-id}
-* Method    : patch
+* Method    : `PATCH`
 * Form-data body example :
 ```
     name          = New Neo Slamet Wilujeng
