@@ -1,6 +1,7 @@
 import { Repository } from "typeorm";
 import { Articles } from "../entity/Articles";
 import { AppDataSource } from "../data-source";
+import cloudinary from "../libs/cloudinary";
 
 export default new (class ArticlesService {
   private readonly ArticlesRepository: Repository<Articles> =
@@ -24,14 +25,22 @@ export default new (class ArticlesService {
   }
   async update(id: number, data: any): Promise<object | string> {
     try {
-      if (typeof data.image === "undefined") {
-        const imageDb = await this.ArticlesRepository.findOneBy({ id });
-        data.image = imageDb[0].image;
+      if (data.image) {
+        cloudinary.upload();
+        const cloudinaryRes = await cloudinary.destination(data.image);
+
+        const obj = {
+          ...data,
+          image: cloudinaryRes.secure_url,
+        };
+
+        const response = await this.ArticlesRepository.update(id, obj);
+        return {
+          message: "success updating a Paslon",
+          data: response,
+        };
       }
-      const response = await this.ArticlesRepository.update(id, {
-        ...data,
-        updatedAt: new Date(),
-      });
+      const response = await this.ArticlesRepository.update(id, data);
       return {
         message: "success updating a Articles",
         data: response,
@@ -73,7 +82,7 @@ export default new (class ArticlesService {
   }
   async getOne(id: number): Promise<object | string> {
     try {
-      const response = await this.ArticlesRepository.findOne({
+      const response = await this.ArticlesRepository.find({
         where: { id },
         relations: {
           user: true,

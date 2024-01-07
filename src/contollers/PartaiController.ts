@@ -1,13 +1,16 @@
 import { Request, Response } from "express";
 import PartaiService from "../services/PartaiService";
-import createPartaiSchema from "../utils/validator/PartaiValidator";
+import {
+  createPartaiSchema,
+  updatePartaiSchema,
+} from "../utils/validator/PartaiValidator";
 import cloudinary from "../libs/cloudinary";
 
 export default new (class PartaiController {
   async create(req: Request, res: Response) {
     try {
       const loginSession = res.locals.loginSession.obj;
-      if (loginSession.role !== 'admin')
+      if (loginSession.role !== "admin")
         return res.status(401).json({ message: "unauthorize" });
 
       const data = {
@@ -40,7 +43,7 @@ export default new (class PartaiController {
   async update(req: Request, res: Response) {
     try {
       const loginSession = res.locals.loginSession.obj;
-      if (loginSession.role !== 'admin')
+      if (loginSession.role !== "admin")
         return res.status(401).json({ message: "unauthorize" });
 
       const id = parseInt(req.params.id, 10);
@@ -50,8 +53,18 @@ export default new (class PartaiController {
           error: "Invalid input for type number",
         });
       }
-      const data = req.body;
-      const response = await PartaiService.update(id, data);
+      const data = {
+        name: req.body.name,
+        partyLeader: req.body.partyLeader,
+        visionMission: req.body.visionMission,
+        address: req.body.address,
+        paslon: req.body.paslonId,
+        image: res.locals.filename,
+      };
+      const { error, value } = updatePartaiSchema.validate(data);
+      if (error) return res.status(400).json(error);
+
+      const response = await PartaiService.update(id, value);
       return res.status(201).json(response);
     } catch (error) {
       console.error("Error updating a Partai:", error);
@@ -63,9 +76,9 @@ export default new (class PartaiController {
   async delete(req: Request, res: Response) {
     try {
       const loginSession = res.locals.loginSession.obj;
-      if (loginSession.role !== 'admin')
+      if (loginSession.role !== "admin")
         return res.status(401).json({ message: "unauthorize" });
-      
+
       const id = parseInt(req.params.id, 10);
       if (isNaN(id)) {
         return res.status(400).json({

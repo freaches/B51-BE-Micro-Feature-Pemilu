@@ -1,6 +1,7 @@
 import { Repository } from "typeorm";
 import { Partai } from "../entity/Partai";
 import { AppDataSource } from "../data-source";
+import cloudinary from "../libs/cloudinary";
 
 export default new (class PartaiService {
   private readonly PartaiRepository: Repository<Partai> =
@@ -24,6 +25,23 @@ export default new (class PartaiService {
   }
   async update(id: number, data: any): Promise<object | string> {
     try {
+      if (data.image) {
+        cloudinary.upload();
+        const cloudinaryRes = await cloudinary.destination(data.image);
+
+        const obj = {
+          ...data,
+          image: cloudinaryRes.secure_url,
+          updatedAt: new Date()
+        };
+
+        const response = await this.PartaiRepository.update(id, obj);
+        return {
+          message: "success updating a Paslon",
+          data: response,
+        };
+      }
+
       const response = await this.PartaiRepository.update(id, data);
       return {
         message: "success updating a Partai",

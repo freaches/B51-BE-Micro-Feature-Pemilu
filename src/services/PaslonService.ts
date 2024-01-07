@@ -9,21 +9,13 @@ export default new (class PaslonService {
 
   async create(data: any): Promise<object | string> {
     try {
-      let countPaslon = await this.PaslonRepository.count();
-      if (
-        data.numberPaslon < countPaslon + 1 ||
-        data.numberPaslon > countPaslon + 1
-      )
-        return `masukan nomor urut paslon sesuai, yaitu ${countPaslon + 1}`;
-      
-        cloudinary.upload();
-        const cloudinaryRes = await cloudinary.destination(data.image);
-        
-        const obj = await this.PaslonRepository.create({
-          ...data,
-          image: cloudinaryRes.secure_url,
-        });
-  
+      cloudinary.upload();
+      const cloudinaryRes = await cloudinary.destination(data.image);
+
+      const obj = await this.PaslonRepository.create({
+        ...data,
+        image: cloudinaryRes.secure_url,
+      });
 
       const response = await this.PaslonRepository.save(obj);
 
@@ -35,8 +27,25 @@ export default new (class PaslonService {
       return "message: something error while creating a new Paslon";
     }
   }
+
   async update(id: number, data: any): Promise<object | string> {
     try {
+      if (data.image) {
+        cloudinary.upload();
+        const cloudinaryRes = await cloudinary.destination(data.image);
+
+        const obj = {
+          ...data,
+          image: cloudinaryRes.secure_url,
+        };
+
+        const response = await this.PaslonRepository.update(id, obj);
+        return {
+          message: "success updating a Paslon",
+          data: response,
+        };
+      }
+
       const response = await this.PaslonRepository.update(id, data);
       return {
         message: "success updating a Paslon",
@@ -78,7 +87,8 @@ export default new (class PaslonService {
   }
   async getOne(id: number): Promise<object | string> {
     try {
-      const response = await this.PaslonRepository.find({where : {id : id},
+      const response = await this.PaslonRepository.find({
+        where: { id },
         relations: ["partai"],
         select: {
           partai: {

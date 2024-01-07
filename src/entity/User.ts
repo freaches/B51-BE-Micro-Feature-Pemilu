@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, Up
 import { Articles } from "./Articles"
 import { Vote } from "./Vote"
 
-export type UserRoleType = "admin" | "editor" | "ghost"
+export type UserRoleType = "admin" | "ghost"
 export type UserGender = "male" | "female" 
 @Entity({name:"users"})
 export class User {
@@ -13,14 +13,15 @@ export class User {
     @Column()
     name: string
 
-    @Column()
+    @Column({nullable : true})
     address: string
 
     @Column({
         type: "enum",
-        enum : ["male","female"]
+        enum : ["male","female"],
+        nullable : true
     })
-    gender: string
+    gender: UserGender
 
     @Column()
     username: string
@@ -30,7 +31,7 @@ export class User {
 
     @Column({
         type: "enum",
-        enum: ["admin", "editor", "ghost"],
+        enum: ["admin", "ghost"],
         default: "ghost"
     })
     role: UserRoleType

@@ -1,6 +1,6 @@
 import * as Joi from "joi";
 
-const createArticlesSchema = Joi.object({
+export const createArticlesSchema = Joi.object({
   title: Joi.string().max(250).required(),
   description: Joi.string().required(),
   image: Joi.string().required(),
@@ -9,4 +9,13 @@ const createArticlesSchema = Joi.object({
   updateAt: Joi.date(),
 });
 
-export default createArticlesSchema;
+export const updateArticlesSchema = Joi.object({
+  title: Joi.string().max(250),
+  description: Joi.string(),
+  image: Joi.string(),
+  user: Joi.number(),
+  createdAt: Joi.date(),
+  updateAt: Joi.date(),
+});
+
+;

@@ -1,6 +1,6 @@
 import * as Joi from "joi";
 
-const createPartaiSchema = Joi.object({
+export const createPartaiSchema = Joi.object({
   name: Joi.string().max(250).required(),
   partyLeader: Joi.string().min(3).max(50).required(),
   visionMission: Joi.string().required(),
@@ -11,4 +11,13 @@ const createPartaiSchema = Joi.object({
   updateAt: Joi.date(),
 });
 
-export default createPartaiSchema;
+export const updatePartaiSchema = Joi.object({
+  name: Joi.string().max(250),
+  partyLeader: Joi.string().min(3).max(50),
+  visionMission: Joi.string(),
+  address: Joi.string().min(3).max(250),
+  paslon: Joi.number(),
+  image: Joi.string(),
+  createdAt: Joi.date(),
+  updateAt: Joi.date(),
+});

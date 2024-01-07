@@ -3,6 +3,7 @@ import { User } from "../entity/User";
 import { AppDataSource } from "../data-source";
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
+import "dotenv/config";
 
 export default new (class AuthService {
   private readonly AuthRepository: Repository<User> =
@@ -10,10 +11,10 @@ export default new (class AuthService {
 
   async register(data: any): Promise<object | string> {
     try {
-      const usernameCheck = await this.AuthRepository.count({
+      const usernameCheck = await this.AuthRepository.exist({
         where: { username: data.username },
       });
-      if (usernameCheck > 0) return { message: `Username already used` };
+      if (usernameCheck) return { message: `Username already used` };
 
       const hashPass = await bcrypt.hash(data.password, 10);
 
@@ -50,10 +51,12 @@ export default new (class AuthService {
         address: idCheck.address,
         gender: idCheck.gender,
         username: idCheck.username,
-        role: idCheck.role
+        role: idCheck.role,
       });
 
-      const token = jwt.sign({ obj }, "LEBATAMAT", { expiresIn: "1h" });
+      const token = jwt.sign({ obj }, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_EXPIRES_IN,
+      });
       return {
         message: `Login is suscess`,
         token,
@@ -62,4 +65,4 @@ export default new (class AuthService {
       return "message: something error while logging in";
     }
   }
-});
+})();

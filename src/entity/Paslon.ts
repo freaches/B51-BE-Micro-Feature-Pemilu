@@ -11,9 +11,6 @@ export class Paslon {
     @Column()
     name: string
 
-    @Column()
-    numberPaslon: number
-
     @Column("text")
     visionMission: string
 

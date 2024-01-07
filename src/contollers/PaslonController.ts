@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import PaslonService from "../services/PaslonService";
-import createPaslonSchema from "../utils/validator/PaslonValidator";
+import {createPaslonSchema, updatePaslonSchema} from "../utils/validator/PaslonValidator";
 
 export default new (class PaslonController {
 
@@ -12,7 +12,6 @@ export default new (class PaslonController {
 
       const data = {
         name: req.body.name,
-        numberPaslon: req.body.numberPaslon,
         visionMission: req.body.visionMission,
         image: res.locals.filename,
       };
@@ -43,12 +42,11 @@ export default new (class PaslonController {
       }
       const data = {
         name: req.body.name,
-        numberPaslon: req.body.numberPaslon,
         visionMission: req.body.visionMission,
         image: res.locals.filename,
       };
-      const { error, value } = createPaslonSchema.validate(data);
-      if (error) return res.status(400).json(value);
+      const { error, value } = updatePaslonSchema.validate(data);
+      if (error) return res.status(400).json(error);
 
       const response = await PaslonService.update(id, value);
       return res.status(201).json(response);

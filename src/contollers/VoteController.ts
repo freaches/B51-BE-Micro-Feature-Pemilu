@@ -6,9 +6,7 @@ export default new (class VoteController {
   async create(req: Request, res: Response) {
     try {
       const loginSession = res.locals.loginSession.obj;
-      const data = { paslon: req.body.voting, 
-        user: loginSession.id,
-         };
+      const data = { paslon: req.body.voting, user: loginSession.id };
 
       const { error, value } = createvVoteSchema.validate(data);
       if (error) return res.status(400).json(error);
@@ -17,44 +15,6 @@ export default new (class VoteController {
       return res.status(201).json(response);
     } catch (error) {
       console.error("Error creating a Vote:", error);
-      return res
-        .status(500)
-        .json({ message: "Internal server error", error: error.message });
-    }
-  }
-  async update(req: Request, res: Response) {
-    try {
-      const id = parseInt(req.params.id, 10);
-      if (isNaN(id)) {
-        return res.status(400).json({
-          message: "Invalid ID provided",
-          error: "Invalid input for type number",
-        });
-      }
-      const data = req.body;
-      const response = await VoteService.update(id, data);
-      return res.status(201).json(response);
-    } catch (error) {
-      console.error("Error updating a Vote:", error);
-      return res
-        .status(500)
-        .json({ message: "Internal server error", error: error.message });
-    }
-  }
-  async delete(req: Request, res: Response) {
-    try {
-      const id = parseInt(req.params.id, 10);
-      if (isNaN(id)) {
-        return res.status(400).json({
-          message: "Invalid ID provided",
-          error: "Invalid input for type number",
-        });
-      }
-
-      const response = await VoteService.delete(id);
-      return res.status(201).json(response);
-    } catch (error) {
-      console.error("Error deleting a Vote:", error);
       return res
         .status(500)
         .json({ message: "Internal server error", error: error.message });

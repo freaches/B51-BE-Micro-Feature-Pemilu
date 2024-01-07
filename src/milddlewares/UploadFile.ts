@@ -23,22 +23,25 @@ export default new (class UploadFile {
           ext !== ".jpg" &&
           ext !== ".gif" &&
           ext !== ".jpeg"
-        ){
-          return cb(new Error("Only images are allowed"))}
-        return cb(null, true)
+        ) {
+          return cb(new Error("Only images are allowed"));
+        }
+        return cb(null, true);
       },
     });
 
     return (req: Request, res: Response, next: NextFunction) => {
       uploadFile.single(fieldName)(req, res, (error: any) => {
-        if (error)
-          return res
-            .status(400)
-            .json({ message: "Error while processing upload image0..3" });
+        if (error) return res.status(400).json({ message: error.message })
+        if (req.file !== undefined) {
 
-        res.locals.filename = req.file.filename;
-        next();
+          res.locals.filename = req.file.filename;
+          next();
+        }
+        if (req.file === undefined) {
+          next();
+        }
       });
     };
   }
-});
+})();

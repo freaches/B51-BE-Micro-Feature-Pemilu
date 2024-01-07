@@ -46,8 +46,7 @@ export default new (class UserService {
   async getOne(id: number): Promise<object | string> {
     try {
       const response = await this.UserRepository.findOne({
-        where: { id: id, role: "ghost" },
-        select: ["id", "name", "address", "gender", "username", "role"],
+        where: { id },
       });
 
       return {

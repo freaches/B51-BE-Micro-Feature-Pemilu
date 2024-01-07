@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 import ArticlesService from "../services/ArticlesService";
-import createArticlesSchema from "../utils/validator/ArticlesValidator";
+import { createArticlesSchema, updateArticlesSchema } from "../utils/validator/ArticlesValidator";
 import cloudinary from "../libs/cloudinary";
 
 export default new (class ArticlesController {
   async create(req: Request, res: Response) {
     try {
       const loginSession = res.locals.loginSession.obj;
-      if (loginSession.role !== 'admin')
+      if (loginSession.role !== "admin")
         return res.status(401).json({ message: "unauthorize" });
 
       const data = {
@@ -55,8 +55,8 @@ export default new (class ArticlesController {
         description: req.body.description,
         image: res.locals.filename,
       };
-      const { error, value } = createArticlesSchema.validate(data);
-      if (error) return res.status(400).json(value);
+      const { error, value } = updateArticlesSchema.validate(data);
+      if (error) return res.status(400).json(error);
 
       const response = await ArticlesService.update(id, value);
       return res.status(201).json(response);
