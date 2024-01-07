@@ -9,12 +9,12 @@ Steps to use authorization on postman:
 
 ## LIST OF CONTENT
 1. [AUTH](#AUTH)
-2. [ARTICLE](#ARTICLES)
+2. [ARTICLES](#ARTICLES)
 5. [VOTE](#VOTE)
 3. [PASLON](#PASLON)
 4. [PARTAI](#PARTAI)
 
-### A. **AUTH**
+## A. **AUTH**
 1. Register Admin
 * Url : http://localhost:5000/api/v1/admin/register
 * Method : `POST`
@@ -76,7 +76,7 @@ Steps to use authorization on postman:
 
 note: you will received token which is used to authorization
 
-### B. **ARTICLES**
+## B. **ARTICLES**
 
 1. Getting all articles (no authorization)
 * Url       : http://localhost:5000/api/v1/articles
@@ -120,7 +120,7 @@ note: you will received token which is used to authorization
 
 note : you can user article card for your homepage
 
-### C. **VOTE**
+## C. **VOTE**
 
 1. Getting all voters data (required admin authorization)
 * Url       : http://localhost:5000/api/v1/vote
@@ -145,7 +145,7 @@ note : you can user article card for your homepage
 
 note : user and admin can do voting
 
-### D. **PASLON**
+## D. **PASLON**
 
 1. Getting all paslon (no authorization)
 * Url       : http://localhost:5000/api/v1/paslon
@@ -177,7 +177,7 @@ note : user and admin can do voting
 * Url       : http://localhost:5000/api/v1/paslon/{paslon-id}
 * Method    : `DELETE`
 
-### E. **PARTAI**
+## E. **PARTAI**
 
 1. Getting all partai (no authorization)
 * Url       : http://localhost:5000/api/v1/partai
