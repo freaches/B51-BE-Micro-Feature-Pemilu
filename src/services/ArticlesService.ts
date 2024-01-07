@@ -62,7 +62,7 @@ export default new (class ArticlesService {
   }
   async getAll(): Promise<object | string> {
     try {
-      const response = await this.ArticlesRepository.find({
+      const articles = await this.ArticlesRepository.find({
         relations: {
           user: true,
         },
@@ -72,9 +72,20 @@ export default new (class ArticlesService {
           },
         },
       });
+      const viewArticles = articles.map((item) => {
+        return {
+          id: item.id,
+          title: item.title,
+          description: item.description,
+          image: item.image,
+          author: item.user.name,
+          createdAt: item.createdAt,
+          updatedAt: item.updatedAt,
+        };
+      });
       return {
         message: "success getting all Articles",
-        data: response,
+        data: viewArticles,
       };
     } catch (error) {
       return "message: something error while getting all Articles";
@@ -82,7 +93,7 @@ export default new (class ArticlesService {
   }
   async getOne(id: number): Promise<object | string> {
     try {
-      const response = await this.ArticlesRepository.find({
+      const articles = await this.ArticlesRepository.find({
         where: { id },
         relations: {
           user: true,
@@ -94,9 +105,20 @@ export default new (class ArticlesService {
         },
       });
 
+      const viewArticles = articles.map((item) => {
+        return {
+          id: item.id,
+          title: item.title,
+          description: item.description,
+          image: item.image,
+          author: item.user.name,
+          createdAt: item.createdAt,
+          updatedAt: item.updatedAt,
+        };
+      });
       return {
-        message: "success getting a Articles",
-        data: response,
+        message: "success getting a Article",
+        data: viewArticles,
       };
     } catch (error) {
       return "message: something error while getting a Articles";
@@ -104,7 +126,7 @@ export default new (class ArticlesService {
   }
   async getAllArticlesCard(): Promise<object | string> {
     try {
-      const response = await this.ArticlesRepository.find({
+      const articles = await this.ArticlesRepository.find({
         relations: {
           user: true,
         },
@@ -120,9 +142,19 @@ export default new (class ArticlesService {
         },
       });
 
+      const viewArticles = articles.map((item) => {
+        return {
+          id: item.id,
+          title: item.title,
+          image: item.image,
+          author: item.user.name,
+          createdAt: item.createdAt,
+          updatedAt: item.updatedAt,
+        };
+      });
       return {
-        message: "success getting all Cards Articles",
-        data: response,
+        message: "success getting all Articles Cards",
+        data: viewArticles,
       };
     } catch (error) {
       return "message: something error while getting Cards Articles";
@@ -130,7 +162,7 @@ export default new (class ArticlesService {
   }
   async getOneArticlesCard(id: number): Promise<object | string> {
     try {
-      const response = await this.ArticlesRepository.find({
+      const articles = await this.ArticlesRepository.find({
         where: { id },
         relations: {
           user: true,
@@ -147,9 +179,19 @@ export default new (class ArticlesService {
         },
       });
 
+      const viewArticles = articles.map((item) => {
+        return {
+          id: item.id,
+          title: item.title,
+          image: item.image,
+          author: item.user.name,
+          createdAt: item.createdAt,
+          updatedAt: item.updatedAt,
+        };
+      });
       return {
-        message: "success getting a Card Articles",
-        data: response,
+        message: "success getting a Articles card",
+        data: viewArticles,
       };
     } catch (error) {
       return "message: something error while getting Cards Articles";

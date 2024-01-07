@@ -25,7 +25,7 @@ export default new (class VoteService {
   }
   async getAll(): Promise<object | string> {
     try {
-      const response = await this.VoteRepository.find({
+      const vote = await this.VoteRepository.find({
         relations: ["user", "paslon"],
         select: {
           user: {
@@ -38,11 +38,20 @@ export default new (class VoteService {
           },
         },
       });
+      const viewVote = vote.map((peserta) => {
+        return {
+          id: peserta.id,
+          fullname: peserta.user.name,
+          address: peserta.user.address,
+          gender: peserta.user.gender,
+          paslon: peserta.paslon.name,
+        };
+      });
       const countVoters = await this.VoteRepository.count();
       return {
         message: "success getting all Vote",
         jumlahVoters: countVoters,
-        data: response,
+        data: viewVote,
       };
     } catch (error) {
       return "message: something error while getting all Vote";
@@ -50,7 +59,7 @@ export default new (class VoteService {
   }
   async getOne(id: number): Promise<object | string> {
     try {
-      const response = await this.VoteRepository.findOne({
+      const vote = await this.VoteRepository.findOne({
         where: { id },
         relations: ["user", "paslon"],
         select: {
@@ -65,9 +74,17 @@ export default new (class VoteService {
         },
       });
 
+      const viewVote = {
+        id: vote.id,
+        fullname: vote.user.name,
+        address: vote.user.address,
+        gender: vote.user.gender,
+        paslon: vote.paslon.name,
+      };
+
       return {
         message: "success getting a Vote",
-        data: response,
+        data: viewVote,
       };
     } catch (error) {
       return "message: something error while getting a Vote";

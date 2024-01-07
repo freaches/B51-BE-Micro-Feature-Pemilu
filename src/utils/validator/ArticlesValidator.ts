@@ -13,7 +13,6 @@ export const updateArticlesSchema = Joi.object({
   title: Joi.string().max(250),
   description: Joi.string(),
   image: Joi.string(),
-  user: Joi.number(),
   createdAt: Joi.date(),
   updateAt: Joi.date(),
 });
